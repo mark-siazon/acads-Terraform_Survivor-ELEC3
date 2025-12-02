@@ -17,6 +17,15 @@ class SettingsPanel extends Component {
         this.setState({ isOpen: false });
     }
 
+    setSettings(settings) {
+        // Store settings for next render
+        this.currentSettings = settings;
+        // If panel is open, re-render to show updated values
+        if (this.state.isOpen) {
+            this.render();
+        }
+    }
+
     handleChange(setting, value) {
         if (this.onSettingsChange) {
             this.onSettingsChange(setting, value);
@@ -30,7 +39,7 @@ class SettingsPanel extends Component {
         }
 
         const config = window.game?.config || {};
-        const settings = config.gameSettings || {};
+        const settings = this.currentSettings || config.gameSettings || {};
 
         this.container.innerHTML = `
             <div class="modal-overlay" data-close>

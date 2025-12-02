@@ -9,6 +9,7 @@ class SaveManager {
             const saveData = {
                 player: gameState.player,
                 inventory: gameState.inventory,
+                config: gameState.config,
                 timestamp: Date.now(),
                 version: '1.0'
             };
@@ -41,6 +42,10 @@ class SaveManager {
             console.error('Failed to delete save:', e);
             return false;
         }
+    }
+
+    clearSave() {
+        return this.deleteSave();
     }
 
     hasSave() {

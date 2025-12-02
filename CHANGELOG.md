@@ -2,6 +2,64 @@
 
 All notable changes to Terraform Survivor.
 
+## [1.3.1] - 2024-12-02
+
+### Fixed
+
+#### 🐛 Critical Bug Fixes
+
+- **SaveManager Method Mismatch**: Fixed `clearSave()` method not existing
+
+  - Game.js was calling `this.saveManager.clearSave()` on game over
+  - SaveManager only had `deleteSave()` method
+  - Added `clearSave()` as an alias to `deleteSave()` for compatibility
+  - Prevents crash when player dies
+
+- **Config Not Persisted**: Fixed game configuration not being saved
+
+  - SaveManager was not saving the `config` object
+  - Game.js was trying to load `savedGame.config` which didn't exist
+  - Added `config` to the save data structure
+  - Settings changes now persist across sessions
+
+- **Achievement Return Value**: Fixed achievement notifications not showing
+
+  - `checkAchievement()` method wasn't returning the unlocked achievement
+  - Game.js expected a return value to show notification
+  - Now properly returns the unlocked achievement object
+  - Achievement notifications now display correctly when unlocked
+
+- **Missing Achievement Icons**: Added icons to all achievement definitions
+  - Action achievements (Explorer 🔍, Hunter 🏹, Craftsman 🔨)
+  - Resource achievements (Gatherer 📦, Hoarder 🏛️)
+  - Survivor achievements already had icons
+  - Ensures consistent achievement display
+
+#### 🔄 Display Sync Issues
+
+- **Stats Panel Race Condition**: Fixed tooltips showing incorrect inventory status
+
+  - `updateAllComponents()` was calling `updateStats()` before `setInventory()`
+  - Stats panel render used stale inventory data for tooltip availability checks
+  - Reordered calls to set inventory before updating stats
+  - Tooltips now correctly show if you have items to fix low stats
+
+- **Settings Panel Missing Method**: Fixed settings not updating in panel
+  - Game.js called `setSettings()` but method didn't exist in SettingsPanel
+  - Settings panel showed stale values after changes
+  - Added `setSettings()` method to store and display current settings
+  - Settings panel now shows correct values when reopened
+
+### Technical
+
+- Updated `SaveManager.js` to include config in save data
+- Added `clearSave()` method as wrapper for `deleteSave()`
+- Modified `StatsTracker.js` to return achievement objects
+- Added icon property to all achievement definitions
+- Fixed component update order in `Game.js`
+- Added `setSettings()` method to `SettingsPanel.js`
+- No breaking changes to existing save files
+
 ## [1.3.0] - 2024-12-02
 
 ### Added

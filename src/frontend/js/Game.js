@@ -827,8 +827,9 @@ class Game {
     }
 
     updateAllComponents() {
-        this.statsPanel.updateStats(this.player);
+        // Set inventory BEFORE updating stats so tooltips have correct data
         this.statsPanel.setInventory(this.inventory);
+        this.statsPanel.updateStats(this.player);
         this.inventoryComponent.updateItems(this.inventory);
     }
 

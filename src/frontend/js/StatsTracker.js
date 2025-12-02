@@ -81,27 +81,30 @@ class StatsTracker {
     checkAchievement(id, value) {
         const achievements = {
             survivor: [
-                { id: 'survivor_10', name: 'Survivor', desc: 'Survive 10 days', days: 10 },
-                { id: 'survivor_25', name: 'Veteran', desc: 'Survive 25 days', days: 25 },
-                { id: 'survivor_50', name: 'Legend', desc: 'Survive 50 days', days: 50 },
-                { id: 'survivor_100', name: 'Immortal', desc: 'Survive 100 days', days: 100 }
+                { id: 'survivor_10', name: 'Survivor', desc: 'Survive 10 days', days: 10, icon: '🏕️' },
+                { id: 'survivor_25', name: 'Veteran', desc: 'Survive 25 days', days: 25, icon: '⛺' },
+                { id: 'survivor_50', name: 'Legend', desc: 'Survive 50 days', days: 50, icon: '🏔️' },
+                { id: 'survivor_100', name: 'Immortal', desc: 'Survive 100 days', days: 100, icon: '👑' }
             ]
         };
 
         if (id === 'survivor') {
+            let unlockedAchievement = null;
             achievements.survivor.forEach(ach => {
                 if (value >= ach.days && !this.stats.achievements.includes(ach.id)) {
-                    this.unlockAchievement(ach);
+                    unlockedAchievement = this.unlockAchievement(ach);
                 }
             });
+            return unlockedAchievement;
         }
+        return null;
     }
 
     checkActionAchievements() {
         const actionAchievements = [
-            { id: 'explorer_50', name: 'Explorer', desc: 'Explore 50 times', check: () => this.stats.totalExplorations >= 50 },
-            { id: 'hunter_25', name: 'Hunter', desc: 'Hunt 25 times', check: () => this.stats.totalHunts >= 25 },
-            { id: 'crafter_10', name: 'Craftsman', desc: 'Craft 10 items', check: () => this.stats.totalCrafts >= 10 }
+            { id: 'explorer_50', name: 'Explorer', desc: 'Explore 50 times', icon: '🔍', check: () => this.stats.totalExplorations >= 50 },
+            { id: 'hunter_25', name: 'Hunter', desc: 'Hunt 25 times', icon: '🏹', check: () => this.stats.totalHunts >= 25 },
+            { id: 'crafter_10', name: 'Craftsman', desc: 'Craft 10 items', icon: '🔨', check: () => this.stats.totalCrafts >= 10 }
         ];
 
         actionAchievements.forEach(ach => {
@@ -115,8 +118,8 @@ class StatsTracker {
         const total = Object.values(this.stats.resourcesGathered).reduce((sum, val) => sum + val, 0);
 
         const resourceAchievements = [
-            { id: 'gatherer_100', name: 'Gatherer', desc: 'Collect 100 resources', amount: 100 },
-            { id: 'gatherer_500', name: 'Hoarder', desc: 'Collect 500 resources', amount: 500 }
+            { id: 'gatherer_100', name: 'Gatherer', desc: 'Collect 100 resources', icon: '📦', amount: 100 },
+            { id: 'gatherer_500', name: 'Hoarder', desc: 'Collect 500 resources', icon: '🏛️', amount: 500 }
         ];
 
         resourceAchievements.forEach(ach => {
